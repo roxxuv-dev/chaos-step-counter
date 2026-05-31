@@ -2,6 +2,7 @@ package counting.stepcounter;
 
 import counting.stepcounter.event.EventRegistry;
 import counting.stepcounter.player.PlayerData;
+import counting.stepcounter.question.QuestionRegistry;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.server.level.ServerPlayer;
 import org.slf4j.Logger;
@@ -24,16 +25,30 @@ public class StepCounter implements ModInitializer {
     @Override
     public void onInitialize() {
 
-        LOGGER.info("Chaos Step Counter Loaded");
+        LOGGER.info("================================");
+        LOGGER.info("Chaos Step Counter Loading...");
+        LOGGER.info("================================");
 
         EventRegistry.registerAll();
+        QuestionRegistry.registerQuestions();
+
+        LOGGER.info("Registered Chaos Events");
+        LOGGER.info("Registered Questions");
+        LOGGER.info("Chaos Step Counter Ready");
     }
 
     public static PlayerData getData(ServerPlayer player) {
 
         return PLAYER_DATA.computeIfAbsent(
                 player.getUUID(),
-                id -> new PlayerData()
+                uuid -> new PlayerData()
+        );
+    }
+
+    public static void removePlayer(ServerPlayer player) {
+
+        PLAYER_DATA.remove(
+                player.getUUID()
         );
     }
 }
