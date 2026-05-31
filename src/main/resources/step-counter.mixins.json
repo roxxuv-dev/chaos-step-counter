@@ -3,7 +3,6 @@
   "package": "counting.stepcounter.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "ExampleMixin",
     "PlayerMovementMixin"
   ],
   "injectors": {
