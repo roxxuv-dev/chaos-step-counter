@@ -3,6 +3,8 @@ package counting.stepcounter.mixin;
 import counting.stepcounter.StepCounter;
 import counting.stepcounter.event.EventManager;
 import counting.stepcounter.player.PlayerData;
+import counting.stepcounter.question.QuestionManager;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -14,48 +16,48 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class PlayerMovementMixin {
 
     @Unique
-    private double chaos_lastX = Double.MAX_VALUE;
+    private double stepCounter_lastX = Double.MAX_VALUE;
 
     @Unique
-    private double chaos_lastZ = Double.MAX_VALUE;
+    private double stepCounter_lastZ = Double.MAX_VALUE;
 
     @Unique
-    private double chaos_accum = 0;
+    private double stepCounter_distanceBuffer = 0.0;
 
     @Inject(
             method = "tick",
             at = @At("TAIL")
     )
-    private void chaosTick(CallbackInfo ci) {
+    private void stepCounter_tick(CallbackInfo ci) {
 
         ServerPlayer player =
-                (ServerPlayer)(Object)this;
+                (ServerPlayer) (Object) this;
 
-        if (chaos_lastX == Double.MAX_VALUE) {
+        if (stepCounter_lastX == Double.MAX_VALUE) {
 
-            chaos_lastX = player.getX();
-            chaos_lastZ = player.getZ();
+            stepCounter_lastX = player.getX();
+            stepCounter_lastZ = player.getZ();
 
             return;
         }
 
         double dx =
-                player.getX() - chaos_lastX;
+                player.getX() - stepCounter_lastX;
 
         double dz =
-                player.getZ() - chaos_lastZ;
+                player.getZ() - stepCounter_lastZ;
 
         double distance =
                 Math.sqrt(dx * dx + dz * dz);
 
-        chaos_accum += distance;
+        stepCounter_distanceBuffer += distance;
 
-        if (chaos_accum >= 1.0D) {
+        if (stepCounter_distanceBuffer >= 1.0D) {
 
             long fullSteps =
-                    (long) chaos_accum;
+                    (long) stepCounter_distanceBuffer;
 
-            chaos_accum -= fullSteps;
+            stepCounter_distanceBuffer -= fullSteps;
 
             PlayerData data =
                     StepCounter.getData(player);
@@ -70,7 +72,7 @@ public class PlayerMovementMixin {
                 if (steps % 10 == 0) {
 
                     player.displayClientMessage(
-                            net.minecraft.network.chat.Component.literal(
+                            Component.literal(
                                     "§7Steps: §f" + steps
                             ),
                             true
@@ -79,12 +81,23 @@ public class PlayerMovementMixin {
 
                 if (steps % 50 == 0) {
 
-                    EventManager.triggerRandomEvent(player);
+                    EventManager.triggerRandomEvent(
+                            player
+                    );
+
+                    QuestionManager.maybeAskQuestion(
+                            player
+                    );
                 }
             }
         }
 
-        chaos_lastX = player.getX();
-        chaos_lastZ = player.getZ();
+        QuestionManager.tickPlayer(player);
+
+        stepCounter_lastX =
+                player.getX();
+
+        stepCounter_lastZ =
+                player.getZ();
     }
 }
