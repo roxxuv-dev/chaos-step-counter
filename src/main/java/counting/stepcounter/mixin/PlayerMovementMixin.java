@@ -1,0 +1,45 @@
+package counting.stepcounter.mixin;
+
+import counting.stepcounter.StepCounter;
+import net.minecraft.server.level.ServerPlayer;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+@Mixin(ServerPlayer.class)
+public class PlayerMovementMixin {
+
+    private double stepCounter_lastX = Double.MAX_VALUE;
+    private double stepCounter_lastZ = Double.MAX_VALUE;
+    private double stepCounter_accum = 0.0;
+
+    @Inject(method = "tick", at = @At("TAIL"))
+    private void onTick(CallbackInfo ci) {
+        ServerPlayer player = (ServerPlayer)(Object)this;
+
+        if (stepCounter_lastX == Double.MAX_VALUE) {
+            stepCounter_lastX = player.getX();
+            stepCounter_lastZ = player.getZ();
+            return;
+        }
+
+        double dx = player.getX() - stepCounter_lastX;
+        double dz = player.getZ() - stepCounter_lastZ;
+        double dist = Math.sqrt(dx * dx + dz * dz);
+
+        stepCounter_accum += dist;
+
+        if (stepCounter_accum >= 1.0D) {
+            long fullSteps = (long) stepCounter_accum;
+            stepCounter_accum -= fullSteps;
+
+            for (long i = 0; i < fullSteps; i++) {
+                StepCounter.onPlayerStep(player);
+            }
+        }
+
+        stepCounter_lastX = player.getX();
+        stepCounter_lastZ = player.getZ();
+    }
+}
