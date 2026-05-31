@@ -1,1 +1,64 @@
-.
+{
+  "events": [
+    {
+      "id": "lightning",
+      "name": "Lightning Strike"
+    },
+    {
+      "id": "creeper",
+      "name": "Creeper Behind You"
+    },
+    {
+      "id": "zombie_horde",
+      "name": "Zombie Horde"
+    },
+    {
+      "id": "skeleton_sniper",
+      "name": "Skeleton Sniper"
+    },
+    {
+      "id": "launch",
+      "name": "Sky Launch"
+    },
+    {
+      "id": "blindness",
+      "name": "Blindness"
+    },
+    {
+      "id": "random_teleport",
+      "name": "Random Teleport"
+    },
+    {
+      "id": "freeze",
+      "name": "Freeze"
+    },
+    {
+      "id": "drop_item",
+      "name": "Drop Item"
+    },
+    {
+      "id": "wolf_pack",
+      "name": "Wolf Pack"
+    },
+    {
+      "id": "iron_golem",
+      "name": "Iron Golem"
+    },
+    {
+      "id": "speed_boost",
+      "name": "Speed Boost"
+    },
+    {
+      "id": "tnt",
+      "name": "TNT"
+    },
+    {
+      "id": "levitation",
+      "name": "Levitation"
+    },
+    {
+      "id": "diamond_rain",
+      "name": "Diamond Rain"
+    }
+  ]
+}
