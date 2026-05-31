@@ -1,1 +1,254 @@
-.
+{
+  "questions": [
+    {
+      "question": "What dimension contains the Ender Dragon?",
+      "answers": ["Overworld", "Nether", "End", "Sky"],
+      "correct": 2
+    },
+    {
+      "question": "What ore drops diamonds?",
+      "answers": ["Diamond Ore", "Coal Ore", "Iron Ore", "Gold Ore"],
+      "correct": 0
+    },
+    {
+      "question": "Which mob explodes?",
+      "answers": ["Zombie", "Spider", "Creeper", "Cow"],
+      "correct": 2
+    },
+    {
+      "question": "How many blocks tall is a Creeper?",
+      "answers": ["1", "1.7", "2", "3"],
+      "correct": 1
+    },
+    {
+      "question": "Which dimension has Piglins?",
+      "answers": ["Overworld", "Nether", "End", "Moon"],
+      "correct": 1
+    },
+    {
+      "question": "What do you need to activate a Nether Portal?",
+      "answers": ["Water", "Flint and Steel", "Diamond", "Torch"],
+      "correct": 1
+    },
+    {
+      "question": "What animal gives wool?",
+      "answers": ["Cow", "Pig", "Sheep", "Horse"],
+      "correct": 2
+    },
+    {
+      "question": "Which tool mines obsidian fastest?",
+      "answers": ["Stone Pickaxe", "Iron Pickaxe", "Diamond Pickaxe", "Wooden Pickaxe"],
+      "correct": 2
+    },
+    {
+      "question": "What food do cows drop?",
+      "answers": ["Porkchop", "Chicken", "Beef", "Fish"],
+      "correct": 2
+    },
+    {
+      "question": "What is the final boss called?",
+      "answers": ["Wither", "Warden", "Ender Dragon", "Herobrine"],
+      "correct": 2
+    },
+    {
+      "question": "Which mob trades with emeralds?",
+      "answers": ["Villager", "Zombie", "Spider", "Pig"],
+      "correct": 0
+    },
+    {
+      "question": "What do bees produce?",
+      "answers": ["Honey", "Milk", "Bread", "Coal"],
+      "correct": 0
+    },
+    {
+      "question": "What block grows crops faster?",
+      "answers": ["Stone", "Farmland", "Sand", "Glass"],
+      "correct": 1
+    },
+    {
+      "question": "Which mob shoots arrows?",
+      "answers": ["Zombie", "Skeleton", "Cow", "Slime"],
+      "correct": 1
+    },
+    {
+      "question": "What do you use to tame a wolf?",
+      "answers": ["Fish", "Bone", "Apple", "Bread"],
+      "correct": 1
+    },
+    {
+      "question": "What do Endermen hate?",
+      "answers": ["Sunlight", "Water", "Snow", "Lava"],
+      "correct": 1
+    },
+    {
+      "question": "What block is used to enchant?",
+      "answers": ["Furnace", "Crafting Table", "Enchanting Table", "Anvil"],
+      "correct": 2
+    },
+    {
+      "question": "What drops from chickens?",
+      "answers": ["Beef", "Feathers", "Leather", "Honey"],
+      "correct": 1
+    },
+    {
+      "question": "What is needed to make a bed?",
+      "answers": ["Stone", "Wool and Wood", "Iron", "Diamond"],
+      "correct": 1
+    },
+    {
+      "question": "Which mob lives in the ocean?",
+      "answers": ["Dolphin", "Cow", "Pig", "Wolf"],
+      "correct": 0
+    },
+    {
+      "question": "What is used to smelt items?",
+      "answers": ["Barrel", "Furnace", "Chest", "Lectern"],
+      "correct": 1
+    },
+    {
+      "question": "How many eyes does a spider have?",
+      "answers": ["2", "4", "6", "8"],
+      "correct": 3
+    },
+    {
+      "question": "Which ore is red?",
+      "answers": ["Coal", "Iron", "Redstone", "Diamond"],
+      "correct": 2
+    },
+    {
+      "question": "What do pigs drop?",
+      "answers": ["Beef", "Chicken", "Porkchop", "Fish"],
+      "correct": 2
+    },
+    {
+      "question": "What protects villagers from raids?",
+      "answers": ["Iron Golems", "Cats", "Pigs", "Horses"],
+      "correct": 0
+    },
+    {
+      "question": "What is used to repair items?",
+      "answers": ["Furnace", "Crafting Table", "Anvil", "Chest"],
+      "correct": 2
+    },
+    {
+      "question": "Which mob teleports?",
+      "answers": ["Cow", "Pig", "Enderman", "Sheep"],
+      "correct": 2
+    },
+    {
+      "question": "What color are emeralds?",
+      "answers": ["Blue", "Red", "Green", "Yellow"],
+      "correct": 2
+    },
+    {
+      "question": "What is crafted from sugar cane?",
+      "answers": ["Paper", "Coal", "Iron", "Glass"],
+      "correct": 0
+    },
+    {
+      "question": "What do you breathe underwater with?",
+      "answers": ["Helmet", "Conduit", "Bed", "Bell"],
+      "correct": 1
+    },
+    {
+      "question": "What block stores items?",
+      "answers": ["Chest", "Glass", "Stone", "Wool"],
+      "correct": 0
+    },
+    {
+      "question": "What food restores hunger?",
+      "answers": ["Torch", "Bread", "Stick", "Coal"],
+      "correct": 1
+    },
+    {
+      "question": "Which mob lives in swamps?",
+      "answers": ["Frog", "Cow", "Pig", "Wolf"],
+      "correct": 0
+    },
+    {
+      "question": "What is needed for a beacon?",
+      "answers": ["Nether Star", "Diamond", "Gold", "Coal"],
+      "correct": 0
+    },
+    {
+      "question": "Which block melts ice?",
+      "answers": ["Torch", "Wool", "Stone", "Sand"],
+      "correct": 0
+    },
+    {
+      "question": "What item is used for maps?",
+      "answers": ["Paper", "Coal", "Iron", "String"],
+      "correct": 0
+    },
+    {
+      "question": "What is mined from trees?",
+      "answers": ["Stone", "Wood", "Iron", "Gold"],
+      "correct": 1
+    },
+    {
+      "question": "Which mob flies in the Nether?",
+      "answers": ["Bee", "Ghast", "Chicken", "Wolf"],
+      "correct": 1
+    },
+    {
+      "question": "What do rabbits drop?",
+      "answers": ["Rabbit Hide", "Diamond", "Coal", "Copper"],
+      "correct": 0
+    },
+    {
+      "question": "What is used to fish?",
+      "answers": ["Bow", "Fishing Rod", "Sword", "Hoe"],
+      "correct": 1
+    },
+    {
+      "question": "What block powers redstone?",
+      "answers": ["Redstone Block", "Dirt", "Sand", "Wool"],
+      "correct": 0
+    },
+    {
+      "question": "What color is lapis lazuli?",
+      "answers": ["Blue", "Green", "Red", "Yellow"],
+      "correct": 0
+    },
+    {
+      "question": "What item starts raids?",
+      "answers": ["Bad Omen", "Diamond", "Bread", "Bow"],
+      "correct": 0
+    },
+    {
+      "question": "Which mob is blind?",
+      "answers": ["Warden", "Zombie", "Spider", "Pig"],
+      "correct": 0
+    },
+    {
+      "question": "What item creates snow golems?",
+      "answers": ["Pumpkin", "Apple", "Melon", "Carrot"],
+      "correct": 0
+    },
+    {
+      "question": "What is used to breed cows?",
+      "answers": ["Wheat", "Seeds", "Fish", "Apple"],
+      "correct": 0
+    },
+    {
+      "question": "What item opens End Portals?",
+      "answers": ["Eye of Ender", "Diamond", "Emerald", "Torch"],
+      "correct": 0
+    },
+    {
+      "question": "Which mob drops gunpowder?",
+      "answers": ["Cow", "Pig", "Creeper", "Chicken"],
+      "correct": 2
+    },
+    {
+      "question": "What block grows bamboo fastest?",
+      "answers": ["Dirt", "Sand", "Mud", "Grass"],
+      "correct": 0
+    },
+    {
+      "question": "Which boss is summoned with soul sand and skulls?",
+      "answers": ["Ender Dragon", "Wither", "Warden", "Elder Guardian"],
+      "correct": 1
+    }
+  ]
+}
