@@ -8,23 +8,17 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(Player.class)
+@Mixin(ServerPlayer.class)
 public class PlayerMovementMixin {
 
-    // Track last position to detect when a full block has been moved
     private double stepCounter_lastX = Double.MAX_VALUE;
     private double stepCounter_lastZ = Double.MAX_VALUE;
     private double stepCounter_accum = 0.0;
 
-    @Inject(at = @At("HEAD"), method = "tick")
+    @Inject(at = @At("TAIL"), method = "tick")
     private void onTick(CallbackInfo ci) {
-        Player player = (Player)(Object)this;
+        ServerPlayer player = (ServerPlayer)(Object)this;
 
-        // Only run on server side for ServerPlayer
-        if (!(player instanceof ServerPlayer serverPlayer)) return;
-        if (player.level().isClientSide()) return;
-
-        // First tick init
         if (stepCounter_lastX == Double.MAX_VALUE) {
             stepCounter_lastX = player.getX();
             stepCounter_lastZ = player.getZ();
@@ -37,12 +31,11 @@ public class PlayerMovementMixin {
 
         stepCounter_accum += dist;
 
-        // Count a "step" for every 1 full block of horizontal movement
         if (stepCounter_accum >= 1.0) {
             long fullSteps = (long) stepCounter_accum;
             stepCounter_accum -= fullSteps;
             for (long i = 0; i < fullSteps; i++) {
-                StepCounter.onPlayerStep(serverPlayer);
+                StepCounter.onPlayerStep(player);
             }
         }
 
