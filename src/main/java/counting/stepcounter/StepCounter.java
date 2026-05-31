@@ -41,7 +41,7 @@ public class StepCounter implements ModInitializer {
     }
 
     private static void handleMilestone(ServerPlayer player, long steps) {
-        ServerLevel level = player.serverLevel();
+        ServerLevel level = (ServerLevel) player.level();
 
         // Every 10 steps: show counter
         if (steps % 10 == 0) {
