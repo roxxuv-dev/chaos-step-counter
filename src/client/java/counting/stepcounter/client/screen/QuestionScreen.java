@@ -18,11 +18,6 @@ public class QuestionScreen extends Screen {
 
     private final long expireTime;
 
-    private Button button1;
-    private Button button2;
-    private Button button3;
-    private Button button4;
-
     public QuestionScreen(
             String question,
             String answer1,
@@ -33,7 +28,11 @@ public class QuestionScreen extends Screen {
             long expireTime
     ) {
 
-        super(Component.literal("Question"));
+        super(
+                Component.literal(
+                        "Question"
+                )
+        );
 
         this.question = question;
 
@@ -42,85 +41,105 @@ public class QuestionScreen extends Screen {
         this.answer3 = answer3;
         this.answer4 = answer4;
 
-        this.correctAnswer = correctAnswer;
+        this.correctAnswer =
+                correctAnswer;
 
-        this.expireTime = expireTime;
+        this.expireTime =
+                expireTime;
     }
 
     @Override
     protected void init() {
 
-        int centerX = width / 2;
-        int centerY = height / 2;
+        int centerX =
+                width / 2;
 
-        button1 =
+        int centerY =
+                height / 2;
+
+        addRenderableWidget(
                 Button.builder(
-                        Component.literal(answer1),
-                        button -> answerClicked(0)
-                )
-                .bounds(
-                        centerX - 100,
-                        centerY - 20,
-                        200,
-                        20
-                )
-                .build();
+                                Component.literal(
+                                        answer1
+                                ),
+                                button ->
+                                        answerClicked(0)
+                        )
+                        .bounds(
+                                centerX - 100,
+                                centerY - 20,
+                                200,
+                                20
+                        )
+                        .build()
+        );
 
-        button2 =
+        addRenderableWidget(
                 Button.builder(
-                        Component.literal(answer2),
-                        button -> answerClicked(1)
-                )
-                .bounds(
-                        centerX - 100,
-                        centerY + 5,
-                        200,
-                        20
-                )
-                .build();
+                                Component.literal(
+                                        answer2
+                                ),
+                                button ->
+                                        answerClicked(1)
+                        )
+                        .bounds(
+                                centerX - 100,
+                                centerY + 5,
+                                200,
+                                20
+                        )
+                        .build()
+        );
 
-        button3 =
+        addRenderableWidget(
                 Button.builder(
-                        Component.literal(answer3),
-                        button -> answerClicked(2)
-                )
-                .bounds(
-                        centerX - 100,
-                        centerY + 30,
-                        200,
-                        20
-                )
-                .build();
+                                Component.literal(
+                                        answer3
+                                ),
+                                button ->
+                                        answerClicked(2)
+                        )
+                        .bounds(
+                                centerX - 100,
+                                centerY + 30,
+                                200,
+                                20
+                        )
+                        .build()
+        );
 
-        button4 =
+        addRenderableWidget(
                 Button.builder(
-                        Component.literal(answer4),
-                        button -> answerClicked(3)
-                )
-                .bounds(
-                        centerX - 100,
-                        centerY + 55,
-                        200,
-                        20
-                )
-                .build();
-
-        addRenderableWidget(button1);
-        addRenderableWidget(button2);
-        addRenderableWidget(button3);
-        addRenderableWidget(button4);
+                                Component.literal(
+                                        answer4
+                                ),
+                                button ->
+                                        answerClicked(3)
+                        )
+                        .bounds(
+                                centerX - 100,
+                                centerY + 55,
+                                200,
+                                20
+                        )
+                        .build()
+        );
     }
 
     private void answerClicked(
             int selectedAnswer
     ) {
 
-        if (selectedAnswer == correctAnswer) {
+        if (minecraft == null) {
+            return;
+        }
 
-            if (minecraft != null) {
+        if (selectedAnswer ==
+                correctAnswer) {
 
-                minecraft.setScreen(null);
-            }
+            minecraft.setScreen(
+                    null
+            );
 
         } else {
 
@@ -130,18 +149,20 @@ public class QuestionScreen extends Screen {
 
     private void failQuestion() {
 
-        if (minecraft != null &&
-                minecraft.player != null) {
+        if (minecraft == null) {
+            return;
+        }
 
-            minecraft.player.connection.sendCommand(
-                    "kill"
+        if (minecraft.player != null) {
+
+            minecraft.player.setHealth(
+                    0.0F
             );
         }
 
-        if (minecraft != null) {
-
-            minecraft.setScreen(null);
-        }
+        minecraft.setScreen(
+                null
+        );
     }
 
     @Override
@@ -149,11 +170,8 @@ public class QuestionScreen extends Screen {
 
         super.tick();
 
-        long remaining =
-                expireTime -
-                        System.currentTimeMillis();
-
-        if (remaining <= 0) {
+        if (System.currentTimeMillis()
+                >= expireTime) {
 
             failQuestion();
         }
@@ -168,6 +186,12 @@ public class QuestionScreen extends Screen {
     @Override
     public void onClose() {
 
+    }
+
+    @Override
+    public boolean isPauseScreen() {
+
+        return false;
     }
 
     @Override
@@ -203,7 +227,7 @@ public class QuestionScreen extends Screen {
                 "QUESTION TIME",
                 centerX,
                 centerY - 80,
-                0xFF5555
+                0xFF4444
         );
 
         graphics.drawCenteredString(
@@ -217,8 +241,8 @@ public class QuestionScreen extends Screen {
         long secondsLeft =
                 Math.max(
                         0,
-                        (expireTime
-                                - System.currentTimeMillis())
+                        (expireTime -
+                                System.currentTimeMillis())
                                 / 1000
                 );
 
@@ -227,14 +251,8 @@ public class QuestionScreen extends Screen {
                 "Time Left: "
                         + secondsLeft,
                 centerX,
-                centerY + 90,
+                centerY + 95,
                 0xFFFF55
         );
-    }
-
-    @Override
-    public boolean isPauseScreen() {
-
-        return false;
     }
 }
