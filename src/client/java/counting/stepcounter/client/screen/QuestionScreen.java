@@ -1,5 +1,6 @@
 package counting.stepcounter.client.screen;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
@@ -28,11 +29,7 @@ public class QuestionScreen extends Screen {
             long expireTime
     ) {
 
-        super(
-                Component.literal(
-                        "Question"
-                )
-        );
+        super(Component.literal("Question"));
 
         this.question = question;
 
@@ -41,157 +38,123 @@ public class QuestionScreen extends Screen {
         this.answer3 = answer3;
         this.answer4 = answer4;
 
-        this.correctAnswer =
-                correctAnswer;
+        this.correctAnswer = correctAnswer;
 
-        this.expireTime =
-                expireTime;
+        this.expireTime = expireTime;
     }
 
     @Override
     protected void init() {
 
-        int centerX =
-                width / 2;
-
-        int centerY =
-                height / 2;
+        int centerX = width / 2;
+        int centerY = height / 2;
 
         addRenderableWidget(
                 Button.builder(
-                                Component.literal(
-                                        answer1
-                                ),
-                                button ->
-                                        answerClicked(0)
-                        )
-                        .bounds(
-                                centerX - 100,
-                                centerY - 20,
-                                200,
-                                20
-                        )
-                        .build()
+                        Component.literal(answer1),
+                        button -> answer(0)
+                )
+                .bounds(
+                        centerX - 125,
+                        centerY - 20,
+                        250,
+                        20
+                )
+                .build()
         );
 
         addRenderableWidget(
                 Button.builder(
-                                Component.literal(
-                                        answer2
-                                ),
-                                button ->
-                                        answerClicked(1)
-                        )
-                        .bounds(
-                                centerX - 100,
-                                centerY + 5,
-                                200,
-                                20
-                        )
-                        .build()
+                        Component.literal(answer2),
+                        button -> answer(1)
+                )
+                .bounds(
+                        centerX - 125,
+                        centerY + 10,
+                        250,
+                        20
+                )
+                .build()
         );
 
         addRenderableWidget(
                 Button.builder(
-                                Component.literal(
-                                        answer3
-                                ),
-                                button ->
-                                        answerClicked(2)
-                        )
-                        .bounds(
-                                centerX - 100,
-                                centerY + 30,
-                                200,
-                                20
-                        )
-                        .build()
+                        Component.literal(answer3),
+                        button -> answer(2)
+                )
+                .bounds(
+                        centerX - 125,
+                        centerY + 40,
+                        250,
+                        20
+                )
+                .build()
         );
 
         addRenderableWidget(
                 Button.builder(
-                                Component.literal(
-                                        answer4
-                                ),
-                                button ->
-                                        answerClicked(3)
-                        )
-                        .bounds(
-                                centerX - 100,
-                                centerY + 55,
-                                200,
-                                20
-                        )
-                        .build()
+                        Component.literal(answer4),
+                        button -> answer(3)
+                )
+                .bounds(
+                        centerX - 125,
+                        centerY + 70,
+                        250,
+                        20
+                )
+                .build()
         );
     }
 
-    private void answerClicked(
-            int selectedAnswer
+    private void answer(
+            int selected
     ) {
 
-        if (minecraft == null) {
+        Minecraft mc =
+                Minecraft.getInstance();
+
+        if (selected == correctAnswer) {
+
+            if (mc != null) {
+                mc.setScreen(null);
+            }
+
             return;
         }
 
-        if (selectedAnswer ==
-                correctAnswer) {
+        if (mc != null &&
+                mc.player != null) {
 
-            minecraft.setScreen(
-                    null
+            mc.player.connection.sendCommand(
+                    "answerfail"
             );
 
-        } else {
-
-            failQuestion();
+            mc.setScreen(null);
         }
-    }
-
-    private void failQuestion() {
-
-        if (minecraft == null) {
-            return;
-        }
-
-        if (minecraft.player != null) {
-
-            minecraft.player.setHealth(
-                    0.0F
-            );
-        }
-
-        minecraft.setScreen(
-                null
-        );
     }
 
     @Override
     public void tick() {
 
-        super.tick();
+        long remaining =
+                expireTime
+                        - System.currentTimeMillis();
 
-        if (System.currentTimeMillis()
-                >= expireTime) {
+        if (remaining <= 0) {
 
-            failQuestion();
+            Minecraft mc =
+                    Minecraft.getInstance();
+
+            if (mc != null &&
+                    mc.player != null) {
+
+                mc.player.connection.sendCommand(
+                        "answerfail"
+                );
+
+                mc.setScreen(null);
+            }
         }
-    }
-
-    @Override
-    public boolean shouldCloseOnEsc() {
-
-        return false;
-    }
-
-    @Override
-    public void onClose() {
-
-    }
-
-    @Override
-    public boolean isPauseScreen() {
-
-        return false;
     }
 
     @Override
@@ -202,11 +165,8 @@ public class QuestionScreen extends Screen {
             float partialTick
     ) {
 
-        renderBackground(
-                graphics,
-                mouseX,
-                mouseY,
-                partialTick
+        renderTransparentBackground(
+                graphics
         );
 
         super.render(
@@ -219,40 +179,55 @@ public class QuestionScreen extends Screen {
         int centerX =
                 width / 2;
 
-        int centerY =
-                height / 2;
+        long secondsLeft =
+                Math.max(
+                        0,
+                        (expireTime
+                                - System.currentTimeMillis())
+                                / 1000
+                );
 
         graphics.drawCenteredString(
                 font,
-                "QUESTION TIME",
+                "§4§lQUESTION TIME",
                 centerX,
-                centerY - 80,
-                0xFF4444
+                40,
+                0xFF0000
         );
 
         graphics.drawCenteredString(
                 font,
                 question,
                 centerX,
-                centerY - 55,
+                75,
                 0xFFFFFF
         );
 
-        long secondsLeft =
-                Math.max(
-                        0,
-                        (expireTime -
-                                System.currentTimeMillis())
-                                / 1000
-                );
-
         graphics.drawCenteredString(
                 font,
-                "Time Left: "
+                "§cTime Remaining: "
                         + secondsLeft,
                 centerX,
-                centerY + 95,
-                0xFFFF55
+                105,
+                0xFF5555
         );
+    }
+
+    @Override
+    public boolean shouldCloseOnEsc() {
+
+        return false;
+    }
+
+    @Override
+    public void onClose() {
+
+        // blocked
+    }
+
+    @Override
+    public boolean isPauseScreen() {
+
+        return false;
     }
 }
