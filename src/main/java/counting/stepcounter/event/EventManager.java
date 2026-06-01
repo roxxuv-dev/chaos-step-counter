@@ -1,22 +1,49 @@
 package counting.stepcounter.event;
 
+import counting.stepcounter.StepCounter;
+import counting.stepcounter.hud.HudData;
+import counting.stepcounter.player.PlayerData;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 
 public class EventManager {
 
-    public static void triggerRandomEvent(ServerPlayer player) {
+    public static void triggerRandomEvent(
+            ServerPlayer player
+    ) {
 
-        ChaosEvent event = EventRegistry.getRandomEvent();
+        ChaosEvent event =
+                EventRegistry.getRandomEvent();
 
         if (event == null) {
             return;
         }
 
-        player.sendSystemMessage(
-                Component.literal("§c§lCHAOS EVENT §7» §f" + event.getName())
+        event.execute(player);
+
+        PlayerData data =
+                StepCounter.getData(player);
+
+        data.setCurrentEvent(
+                event.getName()
         );
 
-        event.execute(player);
+        data.setEventDisplayUntil(
+                System.currentTimeMillis() + 5000
+        );
+
+        HudData.lastEvent =
+                event.getName();
+
+        HudData.eventDisplayUntil =
+                System.currentTimeMillis() + 5000;
+
+        player.displayClientMessage(
+                Component.literal(
+                        "§6⚠ Event: §f"
+                                + event.getName()
+                ),
+                true
+        );
     }
 }
