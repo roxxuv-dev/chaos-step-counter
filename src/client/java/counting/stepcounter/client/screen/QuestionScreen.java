@@ -1,5 +1,7 @@
 package counting.stepcounter.client.screen;
 
+import counting.stepcounter.network.AnswerQuestionPayload;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -54,13 +56,13 @@ public class QuestionScreen extends Screen {
                         Component.literal(answer1),
                         button -> answer(0)
                 )
-                .bounds(
-                        centerX - 125,
-                        centerY - 20,
-                        250,
-                        20
-                )
-                .build()
+                        .bounds(
+                                centerX - 125,
+                                centerY - 20,
+                                250,
+                                20
+                        )
+                        .build()
         );
 
         addRenderableWidget(
@@ -68,13 +70,13 @@ public class QuestionScreen extends Screen {
                         Component.literal(answer2),
                         button -> answer(1)
                 )
-                .bounds(
-                        centerX - 125,
-                        centerY + 10,
-                        250,
-                        20
-                )
-                .build()
+                        .bounds(
+                                centerX - 125,
+                                centerY + 10,
+                                250,
+                                20
+                        )
+                        .build()
         );
 
         addRenderableWidget(
@@ -82,13 +84,13 @@ public class QuestionScreen extends Screen {
                         Component.literal(answer3),
                         button -> answer(2)
                 )
-                .bounds(
-                        centerX - 125,
-                        centerY + 40,
-                        250,
-                        20
-                )
-                .build()
+                        .bounds(
+                                centerX - 125,
+                                centerY + 40,
+                                250,
+                                20
+                        )
+                        .build()
         );
 
         addRenderableWidget(
@@ -96,13 +98,13 @@ public class QuestionScreen extends Screen {
                         Component.literal(answer4),
                         button -> answer(3)
                 )
-                .bounds(
-                        centerX - 125,
-                        centerY + 70,
-                        250,
-                        20
-                )
-                .build()
+                        .bounds(
+                                centerX - 125,
+                                centerY + 70,
+                                250,
+                                20
+                        )
+                        .build()
         );
     }
 
@@ -110,25 +112,16 @@ public class QuestionScreen extends Screen {
             int selected
     ) {
 
+        ClientPlayNetworking.send(
+                new AnswerQuestionPayload(
+                        selected
+                )
+        );
+
         Minecraft mc =
                 Minecraft.getInstance();
 
-        if (selected == correctAnswer) {
-
-            if (mc != null) {
-                mc.setScreen(null);
-            }
-
-            return;
-        }
-
-        if (mc != null &&
-                mc.player != null) {
-
-            mc.player.connection.sendCommand(
-                    "answerfail"
-            );
-
+        if (mc != null) {
             mc.setScreen(null);
         }
     }
@@ -142,16 +135,16 @@ public class QuestionScreen extends Screen {
 
         if (remaining <= 0) {
 
+            ClientPlayNetworking.send(
+                    new AnswerQuestionPayload(
+                            -1
+                    )
+            );
+
             Minecraft mc =
                     Minecraft.getInstance();
 
-            if (mc != null &&
-                    mc.player != null) {
-
-                mc.player.connection.sendCommand(
-                        "answerfail"
-                );
-
+            if (mc != null) {
                 mc.setScreen(null);
             }
         }
@@ -189,7 +182,7 @@ public class QuestionScreen extends Screen {
 
         graphics.drawCenteredString(
                 font,
-                "§4§lQUESTION TIME",
+                "QUESTION TIME",
                 centerX,
                 40,
                 0xFF0000
@@ -205,11 +198,10 @@ public class QuestionScreen extends Screen {
 
         graphics.drawCenteredString(
                 font,
-                "§cTime Remaining: "
-                        + secondsLeft,
+                "Time Remaining: " + secondsLeft,
                 centerX,
                 105,
-                0xFF5555
+                0xFFFF55
         );
     }
 
