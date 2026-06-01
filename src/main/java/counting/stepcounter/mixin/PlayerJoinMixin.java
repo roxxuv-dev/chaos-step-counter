@@ -1,6 +1,6 @@
 package counting.stepcounter.mixin;
 
-import counting.stepcounter.tutorial.TutorialBook;
+import counting.stepcounter.tutorial.TutorialManager;
 import net.minecraft.server.level.ServerPlayer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -11,19 +11,17 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class PlayerJoinMixin {
 
     @Inject(
-            method = "restoreFrom",
-            at = @At("TAIL")
+            method = "tick",
+            at = @At("HEAD")
     )
-    private void giveBook(
-            ServerPlayer oldPlayer,
-            boolean alive,
+    private void stepCounter_joinCheck(
             CallbackInfo ci
     ) {
 
         ServerPlayer player =
                 (ServerPlayer)(Object)this;
 
-        TutorialBook.giveTutorialBook(
+        TutorialManager.handleJoin(
                 player
         );
     }
