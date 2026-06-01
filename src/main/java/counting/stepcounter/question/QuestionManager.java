@@ -3,7 +3,10 @@ package counting.stepcounter.question;
 import counting.stepcounter.StepCounter;
 import counting.stepcounter.network.ModPackets;
 import counting.stepcounter.player.PlayerData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.item.PrimedTnt;
 
 public class QuestionManager {
 
@@ -96,11 +99,35 @@ public class QuestionManager {
             ServerPlayer player
     ) {
 
-        player.hurt(
-                player.damageSources()
-                        .genericKill(),
-                Float.MAX_VALUE
-        );
+        ServerLevel level =
+                (ServerLevel) player.level();
+
+        PrimedTnt tnt =
+                EntityType.TNT.create(
+                        level,
+                        null,
+                        player.blockPosition(),
+                        net.minecraft.world.entity.EntitySpawnReason.EVENT,
+                        true,
+                        true
+                );
+
+        if (tnt != null) {
+
+            tnt.setPos(
+                    player.getX(),
+                    player.getY(),
+                    player.getZ()
+            );
+
+            tnt.setFuse(20);
+
+            level.addFreshEntity(
+                    tnt
+            );
+        }
+
+        player.kill(level);
 
         StepCounter.getData(player)
                 .clearQuestion();
