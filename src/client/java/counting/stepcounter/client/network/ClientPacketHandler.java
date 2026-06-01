@@ -7,10 +7,10 @@ public class ClientPacketHandler {
 
     public static void openQuestionScreen(
             String question,
-            String a1,
-            String a2,
-            String a3,
-            String a4,
+            String answer1,
+            String answer2,
+            String answer3,
+            String answer4,
             int correctAnswer,
             long expireTime
     ) {
@@ -22,10 +22,10 @@ public class ClientPacketHandler {
                 client.setScreen(
                         new QuestionScreen(
                                 question,
-                                a1,
-                                a2,
-                                a3,
-                                a4,
+                                answer1,
+                                answer2,
+                                answer3,
+                                answer4,
                                 correctAnswer,
                                 expireTime
                         )
@@ -34,5 +34,7 @@ public class ClientPacketHandler {
     }
 
     public static void register() {
+
+        // Future networking hooks
     }
 }
