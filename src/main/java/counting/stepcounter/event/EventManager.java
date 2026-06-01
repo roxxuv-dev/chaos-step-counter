@@ -1,9 +1,8 @@
 package counting.stepcounter.event;
 
-import counting.stepcounter.StepCounter;
 import counting.stepcounter.hud.HudData;
 import counting.stepcounter.player.PlayerData;
-import net.minecraft.network.chat.Component;
+import counting.stepcounter.StepCounter;
 import net.minecraft.server.level.ServerPlayer;
 
 public class EventManager {
@@ -29,21 +28,15 @@ public class EventManager {
         );
 
         data.setEventDisplayUntil(
-                System.currentTimeMillis() + 5000
+                System.currentTimeMillis()
+                        + 5000
         );
 
         HudData.lastEvent =
                 event.getName();
 
         HudData.eventDisplayUntil =
-                System.currentTimeMillis() + 5000;
-
-        player.displayClientMessage(
-                Component.literal(
-                        "§6⚠ Event: §f"
-                                + event.getName()
-                ),
-                true
-        );
+                System.currentTimeMillis()
+                        + 5000;
     }
 }
