@@ -16,50 +16,61 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class PlayerMovementMixin {
 
     @Unique
-    private double lastX = Double.MAX_VALUE;
+    private double stepCounter_lastX = Double.MAX_VALUE;
 
     @Unique
-    private double lastZ = Double.MAX_VALUE;
+    private double stepCounter_lastZ = Double.MAX_VALUE;
 
     @Unique
-    private double distanceBuffer = 0.0D;
+    private double stepCounter_distanceBuffer = 0.0D;
 
     @Inject(
             method = "tick",
             at = @At("TAIL")
     )
-    private void chaosStepCounterTick(
+    private void stepCounter_tick(
             CallbackInfo ci
     ) {
 
         ServerPlayer player =
                 (ServerPlayer)(Object)this;
 
-        if (lastX == Double.MAX_VALUE) {
+        if (stepCounter_lastX ==
+                Double.MAX_VALUE) {
 
-            lastX = player.getX();
-            lastZ = player.getZ();
+            stepCounter_lastX =
+                    player.getX();
+
+            stepCounter_lastZ =
+                    player.getZ();
 
             return;
         }
 
         double dx =
-                player.getX() - lastX;
+                player.getX()
+                        - stepCounter_lastX;
 
         double dz =
-                player.getZ() - lastZ;
+                player.getZ()
+                        - stepCounter_lastZ;
 
         double distance =
-                Math.sqrt(dx * dx + dz * dz);
+                Math.sqrt(
+                        dx * dx +
+                        dz * dz
+                );
 
-        distanceBuffer += distance;
+        stepCounter_distanceBuffer +=
+                distance;
 
-        if (distanceBuffer >= 1.0D) {
+        if (stepCounter_distanceBuffer >= 1.0D) {
 
             long fullSteps =
-                    (long)distanceBuffer;
+                    (long) stepCounter_distanceBuffer;
 
-            distanceBuffer -= fullSteps;
+            stepCounter_distanceBuffer -=
+                    fullSteps;
 
             PlayerData data =
                     StepCounter.getData(player);
@@ -76,10 +87,22 @@ public class PlayerMovementMixin {
                 HudData.steps =
                         steps;
 
-                HudData.nextEventAt =
-                        ((steps / 50) + 1) * 50;
+                long remainder =
+                        steps % 50;
 
-                if (steps % 50 == 0) {
+                if (remainder == 0) {
+
+                    HudData.nextEventAt =
+                            50;
+
+                } else {
+
+                    HudData.nextEventAt =
+                            50 - remainder;
+                }
+
+                if (steps > 0
+                        && steps % 50 == 0) {
 
                     EventManager.triggerRandomEvent(
                             player
@@ -92,14 +115,20 @@ public class PlayerMovementMixin {
             }
         }
 
+        PlayerData data =
+                StepCounter.getData(player);
+
+        HudData.questionActive =
+                data.hasQuestion();
+
         QuestionManager.tickPlayer(
                 player
         );
 
-        lastX =
+        stepCounter_lastX =
                 player.getX();
 
-        lastZ =
+        stepCounter_lastZ =
                 player.getZ();
     }
 }
