@@ -5,42 +5,48 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.monster.Zombie;
+import net.minecraft.world.entity.animal.Wolf;
 
-public class WolfPackEvent implements ChaosEvent {
+public class WolfPackEvent
+        implements ChaosEvent {
 
     @Override
     public String getName() {
-        return "Zombie Pack";
+
+        return "Wolf Pack";
     }
 
     @Override
-    public void execute(ServerPlayer player) {
+    public void execute(
+            ServerPlayer player
+    ) {
 
         ServerLevel level =
                 (ServerLevel) player.level();
 
         for (int i = 0; i < 4; i++) {
 
-            Zombie zombie =
-                    EntityType.ZOMBIE.create(
+            Wolf wolf =
+                    EntityType.WOLF.create(
                             level,
                             EntitySpawnReason.MOB_SUMMONED
                     );
 
-            if (zombie == null) {
+            if (wolf == null) {
                 continue;
             }
 
-            zombie.setPos(
-                    player.getX() + i,
+            wolf.setPos(
+                    player.getX()
+                            + (Math.random() * 6 - 3),
                     player.getY(),
-                    player.getZ() + i
+                    player.getZ()
+                            + (Math.random() * 6 - 3)
             );
 
-            zombie.setTarget(player);
-
-            level.addFreshEntity(zombie);
+            level.addFreshEntity(
+                    wolf
+            );
         }
     }
 }
