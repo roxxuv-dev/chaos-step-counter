@@ -17,7 +17,8 @@ public class SkeletonSniperEvent implements ChaosEvent {
     @Override
     public void execute(ServerPlayer player) {
 
-        ServerLevel level = player.serverLevel();
+        ServerLevel level =
+                (ServerLevel) player.level();
 
         Skeleton skeleton =
                 EntityType.SKELETON.create(
@@ -25,17 +26,18 @@ public class SkeletonSniperEvent implements ChaosEvent {
                         EntitySpawnReason.MOB_SUMMONED
                 );
 
-        if (skeleton != null) {
-
-            skeleton.setPos(
-                    player.getX() + 12,
-                    player.getY() + 3,
-                    player.getZ()
-            );
-
-            skeleton.setTarget(player);
-
-            level.addFreshEntity(skeleton);
+        if (skeleton == null) {
+            return;
         }
+
+        skeleton.setPos(
+                player.getX() + 10,
+                player.getY() + 2,
+                player.getZ()
+        );
+
+        skeleton.setTarget(player);
+
+        level.addFreshEntity(skeleton);
     }
 }
