@@ -11,25 +11,25 @@ public class DiamondRainEvent implements ChaosEvent {
 
     @Override
     public String getName() {
-        return "Diamond Reward";
+        return "Diamond Rain";
     }
 
     @Override
     public void execute(ServerPlayer player) {
 
-        ServerLevel level = player.serverLevel();
+        ServerLevel level =
+                (ServerLevel) player.level();
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 5; i++) {
 
             ItemEntity diamond =
                     new ItemEntity(
                             level,
-                            player.getX(),
+                            player.getX() + (Math.random() * 6 - 3),
                             player.getY() + 5,
-                            player.getZ(),
+                            player.getZ() + (Math.random() * 6 - 3),
                             new ItemStack(
-                                    Items.DIAMOND,
-                                    1
+                                    Items.DIAMOND
                             )
                     );
 
