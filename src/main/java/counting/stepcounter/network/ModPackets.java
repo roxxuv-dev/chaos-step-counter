@@ -10,6 +10,12 @@ public class ModPackets {
                     "open_question_screen"
             );
 
+    public static final ResourceLocation ANSWER_QUESTION =
+            ResourceLocation.fromNamespaceAndPath(
+                    "step-counter",
+                    "answer_question"
+            );
+
     public static void register() {
     }
 }
