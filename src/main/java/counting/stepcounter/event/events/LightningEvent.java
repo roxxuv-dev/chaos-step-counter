@@ -3,9 +3,9 @@ package counting.stepcounter.event.events;
 import counting.stepcounter.event.ChaosEvent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
-import net.minecraft.world.entity.EntitySpawnReason;
 
 public class LightningEvent implements ChaosEvent {
 
@@ -17,7 +17,8 @@ public class LightningEvent implements ChaosEvent {
     @Override
     public void execute(ServerPlayer player) {
 
-        ServerLevel level = player.serverLevel();
+        ServerLevel level =
+                (ServerLevel) player.level();
 
         LightningBolt bolt =
                 EntityType.LIGHTNING_BOLT.create(
@@ -25,15 +26,16 @@ public class LightningEvent implements ChaosEvent {
                         EntitySpawnReason.MOB_SUMMONED
                 );
 
-        if (bolt != null) {
-
-            bolt.setPos(
-                    player.getX(),
-                    player.getY(),
-                    player.getZ()
-            );
-
-            level.addFreshEntity(bolt);
+        if (bolt == null) {
+            return;
         }
+
+        bolt.setPos(
+                player.getX(),
+                player.getY(),
+                player.getZ()
+        );
+
+        level.addFreshEntity(bolt);
     }
 }
