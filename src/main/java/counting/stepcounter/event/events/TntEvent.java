@@ -3,7 +3,6 @@ package counting.stepcounter.event.events;
 import counting.stepcounter.event.ChaosEvent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.item.PrimedTnt;
 
 public class TntEvent implements ChaosEvent {
@@ -16,20 +15,18 @@ public class TntEvent implements ChaosEvent {
     @Override
     public void execute(ServerPlayer player) {
 
-        ServerLevel level = player.serverLevel();
+        ServerLevel level =
+                (ServerLevel) player.level();
 
         PrimedTnt tnt =
-                EntityType.TNT.create(level);
+                new PrimedTnt(
+                        level,
+                        player.getX() + 4,
+                        player.getY(),
+                        player.getZ(),
+                        player
+                );
 
-        if (tnt != null) {
-
-            tnt.setPos(
-                    player.getX() + 4,
-                    player.getY(),
-                    player.getZ()
-            );
-
-            level.addFreshEntity(tnt);
-        }
+        level.addFreshEntity(tnt);
     }
 }
