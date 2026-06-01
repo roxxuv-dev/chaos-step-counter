@@ -17,7 +17,8 @@ public class CreeperEvent implements ChaosEvent {
     @Override
     public void execute(ServerPlayer player) {
 
-        ServerLevel level = player.serverLevel();
+        ServerLevel level =
+                (ServerLevel) player.level();
 
         Creeper creeper =
                 EntityType.CREEPER.create(
@@ -25,17 +26,18 @@ public class CreeperEvent implements ChaosEvent {
                         EntitySpawnReason.MOB_SUMMONED
                 );
 
-        if (creeper != null) {
-
-            creeper.setPos(
-                    player.getX() + 2,
-                    player.getY(),
-                    player.getZ()
-            );
-
-            creeper.setTarget(player);
-
-            level.addFreshEntity(creeper);
+        if (creeper == null) {
+            return;
         }
+
+        creeper.setPos(
+                player.getX() + 2,
+                player.getY(),
+                player.getZ()
+        );
+
+        creeper.setTarget(player);
+
+        level.addFreshEntity(creeper);
     }
 }
