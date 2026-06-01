@@ -1,35 +1,32 @@
 package counting.stepcounter.tutorial;
 
-import counting.stepcounter.StepCounter;
-import counting.stepcounter.player.PlayerData;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.item.Items;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 public class TutorialManager {
+
+    private static final Set<UUID> GIVEN_BOOK =
+            new HashSet<>();
 
     public static void handleJoin(
             ServerPlayer player
     ) {
 
-        PlayerData data =
-                StepCounter.getData(player);
-
-        if (data.hasReceivedBook()) {
+        if (GIVEN_BOOK.contains(
+                player.getUUID()
+        )) {
             return;
         }
 
-        if (player.getInventory()
-                .contains(
-                        Items.WRITTEN_BOOK
-                                .getDefaultInstance()
-                )) {
+        GIVEN_BOOK.add(
+                player.getUUID()
+        );
 
-            data.setReceivedBook(true);
-            return;
-        }
-
-        TutorialBook.giveBook(player);
-
-        data.setReceivedBook(true);
+        TutorialBook.giveBook(
+                player
+        );
     }
 }
