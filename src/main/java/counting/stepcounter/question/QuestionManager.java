@@ -2,8 +2,6 @@ package counting.stepcounter.question;
 
 import counting.stepcounter.StepCounter;
 import counting.stepcounter.player.PlayerData;
-import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 
 public class QuestionManager {
@@ -35,32 +33,16 @@ public class QuestionManager {
         );
 
         data.setQuestionExpireTime(
-                System.currentTimeMillis() + 15000
+                System.currentTimeMillis()
+                        + 15000L
         );
 
-        player.sendSystemMessage(
-                Component.literal(
-                        "§c§lQUESTION TIME!"
-                )
-        );
-
-        player.sendSystemMessage(
-                Component.literal(
-                        question.getQuestion()
-                )
-        );
-
-        for (int i = 0;
-             i < question.getAnswers().size();
-             i++) {
-
-            player.sendSystemMessage(
-                    Component.literal(
-                            "§7[" + i + "] §f"
-                                    + question.getAnswers().get(i)
-                    )
-            );
-        }
+        /*
+         * NETWORK OPEN SCREEN
+         *
+         * We'll connect this to packets
+         * in the next file.
+         */
     }
 
     public static void answerQuestion(
@@ -81,28 +63,12 @@ public class QuestionManager {
         if (answer ==
                 question.getCorrectIndex()) {
 
-            player.sendSystemMessage(
-                    Component.literal(
-                            "§aCorrect!"
-                    )
-            );
-
             data.clearQuestion();
 
-        } else {
-
-            player.sendSystemMessage(
-                    Component.literal(
-                            "§4Wrong answer!"
-                    )
-            );
-
-            player.kill(
-                    (ServerLevel) player.level()
-            );
-
-            data.clearQuestion();
+            return;
         }
+
+        failQuestion(player);
     }
 
     public static void tickPlayer(
@@ -117,19 +83,23 @@ public class QuestionManager {
         }
 
         if (System.currentTimeMillis()
-                > data.getQuestionExpireTime()) {
+                >= data.getQuestionExpireTime()) {
 
-            player.sendSystemMessage(
-                    Component.literal(
-                            "§4Time expired!"
-                    )
-            );
-
-            player.kill(
-                    (ServerLevel) player.level()
-            );
-
-            data.clearQuestion();
+            failQuestion(player);
         }
+    }
+
+    public static void failQuestion(
+            ServerPlayer player
+    ) {
+
+        player.hurt(
+                player.damageSources()
+                        .genericKill(),
+                Float.MAX_VALUE
+        );
+
+        StepCounter.getData(player)
+                .clearQuestion();
     }
 }
