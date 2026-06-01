@@ -5,7 +5,9 @@ import java.util.List;
 public class Question {
 
     private final String question;
+
     private final List<String> answers;
+
     private final int correctIndex;
 
     public Question(
