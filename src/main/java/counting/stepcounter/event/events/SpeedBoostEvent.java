@@ -5,7 +5,8 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 
-public class SpeedBoostEvent implements ChaosEvent {
+public class SpeedBoostEvent
+        implements ChaosEvent {
 
     @Override
     public String getName() {
@@ -13,13 +14,15 @@ public class SpeedBoostEvent implements ChaosEvent {
     }
 
     @Override
-    public void execute(ServerPlayer player) {
+    public void execute(
+            ServerPlayer player
+    ) {
 
         player.addEffect(
                 new MobEffectInstance(
-                        MobEffects.MOVEMENT_SPEED,
-                        300,
-                        2
+                        MobEffects.SPEED,
+                        20 * 20,
+                        1
                 )
         );
     }
