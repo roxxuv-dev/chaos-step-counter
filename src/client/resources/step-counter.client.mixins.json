@@ -1,14 +1,12 @@
 {
-	"required": true,
-	"package": "counting.stepcounter.client.mixin",
-	"compatibilityLevel": "JAVA_21",
-	"client": [
-		"PlayerMovementMixins"
-	],
-	"injectors": {
-		"defaultRequire": 1
-	},
-	"overwrites": {
-		"requireAnnotations": true
-	}
+  "required": true,
+  "package": "counting.stepcounter.client.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": [],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
 }
