@@ -7,4 +7,8 @@ public class HudData {
     public static long nextEventAt = 50;
 
     public static boolean questionActive = false;
+
+    public static String lastEvent = "";
+
+    public static long eventDisplayUntil = 0;
 }
