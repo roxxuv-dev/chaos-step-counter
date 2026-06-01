@@ -17,7 +17,8 @@ public class IronGolemEvent implements ChaosEvent {
     @Override
     public void execute(ServerPlayer player) {
 
-        ServerLevel level = player.serverLevel();
+        ServerLevel level =
+                (ServerLevel) player.level();
 
         IronGolem golem =
                 EntityType.IRON_GOLEM.create(
@@ -25,15 +26,16 @@ public class IronGolemEvent implements ChaosEvent {
                         EntitySpawnReason.MOB_SUMMONED
                 );
 
-        if (golem != null) {
-
-            golem.setPos(
-                    player.getX() + 3,
-                    player.getY(),
-                    player.getZ()
-            );
-
-            level.addFreshEntity(golem);
+        if (golem == null) {
+            return;
         }
+
+        golem.setPos(
+                player.getX() + 3,
+                player.getY(),
+                player.getZ()
+        );
+
+        level.addFreshEntity(golem);
     }
 }
