@@ -7,11 +7,15 @@ import net.minecraft.server.level.ServerPlayer;
 
 public class QuestionManager {
 
+    private static final double QUESTION_CHANCE = 0.10;
+
+    private static final long QUESTION_TIME_MS = 15000;
+
     public static void maybeAskQuestion(
             ServerPlayer player
     ) {
 
-        if (Math.random() > 0.10) {
+        if (Math.random() > QUESTION_CHANCE) {
             return;
         }
 
@@ -32,7 +36,8 @@ public class QuestionManager {
         data.setActiveQuestion(question);
 
         data.setQuestionExpireTime(
-                System.currentTimeMillis() + 15000
+                System.currentTimeMillis()
+                        + QUESTION_TIME_MS
         );
 
         player.sendSystemMessage(
@@ -54,14 +59,14 @@ public class QuestionManager {
             player.sendSystemMessage(
                     Component.literal(
                             "§7[" + i + "] §f"
-                            + question.getAnswers().get(i)
+                                    + question.getAnswers().get(i)
                     )
             );
         }
 
         player.sendSystemMessage(
                 Component.literal(
-                        "§eAnswer using /answer <number>"
+                        "§eUse /answer <number>"
                 )
         );
     }
@@ -86,13 +91,19 @@ public class QuestionManager {
 
             player.sendSystemMessage(
                     Component.literal(
-                            "§aCorrect!"
+                            "§a✔ Correct!"
                     )
             );
 
             data.clearQuestion();
 
         } else {
+
+            player.sendSystemMessage(
+                    Component.literal(
+                            "§4✖ Wrong Answer!"
+                    )
+            );
 
             player.kill();
 
@@ -111,8 +122,8 @@ public class QuestionManager {
             return;
         }
 
-        if (System.currentTimeMillis() >
-                data.getQuestionExpireTime()) {
+        if (System.currentTimeMillis()
+                > data.getQuestionExpireTime()) {
 
             player.sendSystemMessage(
                     Component.literal(
