@@ -17,9 +17,10 @@ public class ZombieHordeEvent implements ChaosEvent {
     @Override
     public void execute(ServerPlayer player) {
 
-        ServerLevel level = player.serverLevel();
+        ServerLevel level =
+                (ServerLevel) player.level();
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 4; i++) {
 
             Zombie zombie =
                     EntityType.ZOMBIE.create(
@@ -27,18 +28,19 @@ public class ZombieHordeEvent implements ChaosEvent {
                             EntitySpawnReason.MOB_SUMMONED
                     );
 
-            if (zombie != null) {
-
-                zombie.setPos(
-                        player.getX() + (Math.random() * 8 - 4),
-                        player.getY(),
-                        player.getZ() + (Math.random() * 8 - 4)
-                );
-
-                zombie.setTarget(player);
-
-                level.addFreshEntity(zombie);
+            if (zombie == null) {
+                continue;
             }
+
+            zombie.setPos(
+                    player.getX() + i + 2,
+                    player.getY(),
+                    player.getZ()
+            );
+
+            zombie.setTarget(player);
+
+            level.addFreshEntity(zombie);
         }
     }
 }
