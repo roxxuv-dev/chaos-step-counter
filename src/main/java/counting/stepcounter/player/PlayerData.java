@@ -14,6 +14,8 @@ public class PlayerData {
 
     private long eventDisplayUntil = 0;
 
+    private boolean receivedBook = false;
+
     public long getSteps() {
         return steps;
     }
@@ -74,5 +76,16 @@ public class PlayerData {
     ) {
         this.eventDisplayUntil =
                 eventDisplayUntil;
+    }
+
+    public boolean hasReceivedBook() {
+        return receivedBook;
+    }
+
+    public void setReceivedBook(
+            boolean receivedBook
+    ) {
+        this.receivedBook =
+                receivedBook;
     }
 }
