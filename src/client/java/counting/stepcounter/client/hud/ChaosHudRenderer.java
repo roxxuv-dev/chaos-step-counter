@@ -20,8 +20,7 @@ public class ChaosHudRenderer {
 
                     graphics.drawString(
                             mc.font,
-                            "Steps: "
-                                    + HudData.steps,
+                            "Steps: " + HudData.steps,
                             10,
                             10,
                             0xFFFFFF,
@@ -46,6 +45,27 @@ public class ChaosHudRenderer {
                                 10,
                                 40,
                                 0xFF0000,
+                                true
+                        );
+                    }
+
+                    if (!HudData.lastEvent.isEmpty()) {
+
+                        graphics.drawString(
+                                mc.font,
+                                "EVENT:",
+                                10,
+                                60,
+                                0xFFFF00,
+                                true
+                        );
+
+                        graphics.drawString(
+                                mc.font,
+                                HudData.lastEvent,
+                                10,
+                                75,
+                                0xFFFFFF,
                                 true
                         );
                     }
