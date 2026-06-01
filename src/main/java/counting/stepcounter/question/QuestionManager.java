@@ -8,16 +8,16 @@ import net.minecraft.server.level.ServerPlayer;
 
 public class QuestionManager {
 
-    private static final double QUESTION_CHANCE = 0.10;
-    private static final long QUESTION_TIME_MS = 15000;
+    public static void maybeAskQuestion(
+            ServerPlayer player
+    ) {
 
-    public static void maybeAskQuestion(ServerPlayer player) {
-
-        if (Math.random() > QUESTION_CHANCE) {
+        if (Math.random() > 0.10D) {
             return;
         }
 
-        PlayerData data = StepCounter.getData(player);
+        PlayerData data =
+                StepCounter.getData(player);
 
         if (data.hasQuestion()) {
             return;
@@ -30,22 +30,29 @@ public class QuestionManager {
             return;
         }
 
-        data.setActiveQuestion(question);
+        data.setActiveQuestion(
+                question
+        );
 
         data.setQuestionExpireTime(
-                System.currentTimeMillis()
-                        + QUESTION_TIME_MS
+                System.currentTimeMillis() + 15000
         );
 
         player.sendSystemMessage(
-                Component.literal("§c§lQUESTION TIME!")
+                Component.literal(
+                        "§c§lQUESTION TIME!"
+                )
         );
 
         player.sendSystemMessage(
-                Component.literal(question.getQuestion())
+                Component.literal(
+                        question.getQuestion()
+                )
         );
 
-        for (int i = 0; i < question.getAnswers().size(); i++) {
+        for (int i = 0;
+             i < question.getAnswers().size();
+             i++) {
 
             player.sendSystemMessage(
                     Component.literal(
@@ -54,12 +61,6 @@ public class QuestionManager {
                     )
             );
         }
-
-        player.sendSystemMessage(
-                Component.literal(
-                        "§eUse /answer <number>"
-                )
-        );
     }
 
     public static void answerQuestion(
@@ -89,6 +90,12 @@ public class QuestionManager {
             data.clearQuestion();
 
         } else {
+
+            player.sendSystemMessage(
+                    Component.literal(
+                            "§4Wrong answer!"
+                    )
+            );
 
             player.kill(
                     (ServerLevel) player.level()
