@@ -1,6 +1,7 @@
 package counting.stepcounter.question;
 
 import counting.stepcounter.StepCounter;
+import counting.stepcounter.network.ModPackets;
 import counting.stepcounter.player.PlayerData;
 import net.minecraft.server.level.ServerPlayer;
 
@@ -28,21 +29,23 @@ public class QuestionManager {
             return;
         }
 
+        long expireTime =
+                System.currentTimeMillis()
+                        + 15000L;
+
         data.setActiveQuestion(
                 question
         );
 
         data.setQuestionExpireTime(
-                System.currentTimeMillis()
-                        + 15000L
+                expireTime
         );
 
-        /*
-         * NETWORK OPEN SCREEN
-         *
-         * We'll connect this to packets
-         * in the next file.
-         */
+        ModPackets.sendQuestion(
+                player,
+                question,
+                expireTime
+        );
     }
 
     public static void answerQuestion(
