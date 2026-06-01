@@ -4,35 +4,35 @@ import counting.stepcounter.question.Question;
 
 public class PlayerData {
 
-    private long steps = 0;
+    private long steps;
 
-    private Question activeQuestion = null;
+    private Question activeQuestion;
 
-    private long questionExpireTime = 0;
+    private long questionExpireTime;
 
-    private boolean receivedTutorialBook = false;
+    private String currentEvent = "";
+
+    private long eventDisplayUntil = 0;
 
     public long getSteps() {
         return steps;
     }
 
+    public void setSteps(long steps) {
+        this.steps = steps;
+    }
+
     public void addStep() {
-        steps++;
-    }
-
-    public void addSteps(long amount) {
-        steps += amount;
-    }
-
-    public void resetSteps() {
-        steps = 0;
+        this.steps++;
     }
 
     public Question getActiveQuestion() {
         return activeQuestion;
     }
 
-    public void setActiveQuestion(Question activeQuestion) {
+    public void setActiveQuestion(
+            Question activeQuestion
+    ) {
         this.activeQuestion = activeQuestion;
     }
 
@@ -42,33 +42,37 @@ public class PlayerData {
 
     public void clearQuestion() {
         activeQuestion = null;
-        questionExpireTime = 0;
     }
 
     public long getQuestionExpireTime() {
         return questionExpireTime;
     }
 
-    public void setQuestionExpireTime(long questionExpireTime) {
-        this.questionExpireTime = questionExpireTime;
+    public void setQuestionExpireTime(
+            long questionExpireTime
+    ) {
+        this.questionExpireTime =
+                questionExpireTime;
     }
 
-    public boolean hasReceivedTutorialBook() {
-        return receivedTutorialBook;
+    public String getCurrentEvent() {
+        return currentEvent;
     }
 
-    public void setReceivedTutorialBook(boolean receivedTutorialBook) {
-        this.receivedTutorialBook = receivedTutorialBook;
+    public void setCurrentEvent(
+            String currentEvent
+    ) {
+        this.currentEvent = currentEvent;
     }
 
-    public long getNextEventSteps() {
+    public long getEventDisplayUntil() {
+        return eventDisplayUntil;
+    }
 
-        long remainder = steps % 50;
-
-        if (remainder == 0) {
-            return 50;
-        }
-
-        return 50 - remainder;
+    public void setEventDisplayUntil(
+            long eventDisplayUntil
+    ) {
+        this.eventDisplayUntil =
+                eventDisplayUntil;
     }
 }
