@@ -10,12 +10,10 @@ public class ModPackets {
                     "open_question_screen"
             );
 
-    public static final ResourceLocation ANSWER_QUESTION =
-            ResourceLocation.fromNamespaceAndPath(
-                    "step-counter",
-                    "answer_question"
-            );
-
     public static void register() {
+
+        // Reserved for packet registration
+        // Fabric 1.21.10 handles payload registration differently,
+        // so we're keeping this simple for now.
     }
 }
