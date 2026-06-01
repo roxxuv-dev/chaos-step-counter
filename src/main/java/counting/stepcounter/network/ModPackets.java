@@ -1,19 +1,41 @@
 package counting.stepcounter.network;
 
 import counting.stepcounter.question.Question;
-import net.minecraft.resources.ResourceLocation;
+import counting.stepcounter.question.QuestionManager;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.server.level.ServerPlayer;
 
 public class ModPackets {
 
-    public static final ResourceLocation OPEN_QUESTION_SCREEN =
-            ResourceLocation.fromNamespaceAndPath(
-                    "step-counter",
-                    "open_question_screen"
-            );
-
     public static void register() {
 
+        PayloadTypeRegistry.playS2C().register(
+                OpenQuestionPayload.TYPE,
+                OpenQuestionPayload.CODEC
+        );
+
+        PayloadTypeRegistry.playC2S().register(
+                AnswerQuestionPayload.TYPE,
+                AnswerQuestionPayload.CODEC
+        );
+
+        ServerPlayNetworking.registerGlobalReceiver(
+                AnswerQuestionPayload.TYPE,
+                (payload, context) -> {
+
+                    ServerPlayer player =
+                            context.player();
+
+                    context.server().execute(() ->
+
+                            QuestionManager.answerQuestion(
+                                    player,
+                                    payload.answer()
+                            )
+                    );
+                }
+        );
     }
 
     public static void sendQuestion(
@@ -22,12 +44,21 @@ public class ModPackets {
             long expireTime
     ) {
 
-        /*
-         * Fabric 1.21.10 custom payload implementation
-         * goes here later.
-         *
-         * For now we're keeping the API ready
-         * so the rest of the mod compiles.
-         */
+        ServerPlayNetworking.send(
+                player,
+
+                new OpenQuestionPayload(
+                        question.getQuestion(),
+
+                        question.getAnswers().get(0),
+                        question.getAnswers().get(1),
+                        question.getAnswers().get(2),
+                        question.getAnswers().get(3),
+
+                        question.getCorrectIndex(),
+
+                        expireTime
+                )
+        );
     }
 }
