@@ -3,24 +3,21 @@ package counting.stepcounter.question;
 import counting.stepcounter.StepCounter;
 import counting.stepcounter.player.PlayerData;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 
 public class QuestionManager {
 
     private static final double QUESTION_CHANCE = 0.10;
-
     private static final long QUESTION_TIME_MS = 15000;
 
-    public static void maybeAskQuestion(
-            ServerPlayer player
-    ) {
+    public static void maybeAskQuestion(ServerPlayer player) {
 
         if (Math.random() > QUESTION_CHANCE) {
             return;
         }
 
-        PlayerData data =
-                StepCounter.getData(player);
+        PlayerData data = StepCounter.getData(player);
 
         if (data.hasQuestion()) {
             return;
@@ -41,20 +38,14 @@ public class QuestionManager {
         );
 
         player.sendSystemMessage(
-                Component.literal(
-                        "§c§lQUESTION TIME!"
-                )
+                Component.literal("§c§lQUESTION TIME!")
         );
 
         player.sendSystemMessage(
-                Component.literal(
-                        "§f" + question.getQuestion()
-                )
+                Component.literal(question.getQuestion())
         );
 
-        for (int i = 0;
-             i < question.getAnswers().size();
-             i++) {
+        for (int i = 0; i < question.getAnswers().size(); i++) {
 
             player.sendSystemMessage(
                     Component.literal(
@@ -91,7 +82,7 @@ public class QuestionManager {
 
             player.sendSystemMessage(
                     Component.literal(
-                            "§a✔ Correct!"
+                            "§aCorrect!"
                     )
             );
 
@@ -99,13 +90,9 @@ public class QuestionManager {
 
         } else {
 
-            player.sendSystemMessage(
-                    Component.literal(
-                            "§4✖ Wrong Answer!"
-                    )
+            player.kill(
+                    (ServerLevel) player.level()
             );
-
-            player.kill();
 
             data.clearQuestion();
         }
@@ -131,7 +118,9 @@ public class QuestionManager {
                     )
             );
 
-            player.kill();
+            player.kill(
+                    (ServerLevel) player.level()
+            );
 
             data.clearQuestion();
         }
